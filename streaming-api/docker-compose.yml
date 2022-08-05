@@ -1,0 +1,15 @@
+version: '3.9'
+services:
+  streamingDB:
+    image: mysql
+    container_name: streamingDB
+    volumes:
+      - "./temp/.mysql-data/db:/var/lib/mysql"
+    restart: on-failure
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=streamingDB_root
+      - MYSQL_DATABASE=streamingDB
+      - MYSQL_USER=streamingDB_user
+      - MYSQL_PASSWORD=streamingDB_pass
