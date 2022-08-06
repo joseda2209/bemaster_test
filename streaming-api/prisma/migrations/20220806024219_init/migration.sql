@@ -1,22 +1,23 @@
 -- CreateTable
 CREATE TABLE `User` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
     `lastname` VARCHAR(100) NOT NULL,
     `email` VARCHAR(255) NOT NULL,
     `password` VARCHAR(100) NOT NULL,
     `document` VARCHAR(15) NOT NULL,
-    `rolId` BIGINT NOT NULL,
+    `rolId` INTEGER NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     UNIQUE INDEX `User_email_key`(`email`),
+    UNIQUE INDEX `User_document_key`(`document`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `Content` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
     `author` VARCHAR(255) NOT NULL,
     `duration` INTEGER NOT NULL,
@@ -31,7 +32,7 @@ CREATE TABLE `Content` (
 
 -- CreateTable
 CREATE TABLE `Catogory` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
 
     PRIMARY KEY (`id`)
@@ -39,23 +40,23 @@ CREATE TABLE `Catogory` (
 
 -- CreateTable
 CREATE TABLE `User_X_Content` (
-    `userId` BIGINT NOT NULL,
-    `contentId` BIGINT NOT NULL,
+    `userId` INTEGER NOT NULL,
+    `contentId` INTEGER NOT NULL,
 
     PRIMARY KEY (`userId`, `contentId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `Content_X_Category` (
-    `contentId` BIGINT NOT NULL,
-    `categoryId` BIGINT NOT NULL,
+    `contentId` INTEGER NOT NULL,
+    `categoryId` INTEGER NOT NULL,
 
     PRIMARY KEY (`contentId`, `categoryId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `Rol` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
 
     PRIMARY KEY (`id`)
@@ -63,12 +64,11 @@ CREATE TABLE `Rol` (
 
 -- CreateTable
 CREATE TABLE `AuthorizorToken` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `token` VARCHAR(1000) NOT NULL,
-    `userId` BIGINT NOT NULL,
+    `userId` INTEGER NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
-    UNIQUE INDEX `AuthorizorToken_userId_key`(`userId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

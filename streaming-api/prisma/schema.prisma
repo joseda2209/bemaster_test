@@ -11,14 +11,14 @@ datasource db {
 }
 
 model User {
-  id              BigInt            @id @default(autoincrement())
+  id              Int               @id @default(autoincrement()) @db.Int
   name            String            @db.VarChar(100)
   lastname        String            @db.VarChar(100)
   email           String            @unique @db.VarChar(255)
   password        String            @db.VarChar(100)
-  document        String            @db.VarChar(15)
+  document        String            @unique @db.VarChar(15)
   rol             Rol               @relation(fields: [rolId], references: [id])
-  rolId           BigInt            @db.BigInt
+  rolId           Int               @db.Int
   createdAt       DateTime          @default(now()) @map("created_at")
   updatedAt       DateTime          @default(now()) @map("updated_at")
   User_X_Content  User_X_Content[]
@@ -26,7 +26,7 @@ model User {
 }
 
 model Content {
-  id                 BigInt               @id @default(autoincrement())
+  id                 Int                  @id @default(autoincrement()) @db.Int
   name               String               @db.VarChar(255)
   author             String               @db.VarChar(255)
   duration           Int                  @db.Int
@@ -40,40 +40,39 @@ model Content {
 }
 
 model Catogory {
-  id                 BigInt               @id @default(autoincrement())
+  id                 Int                  @id @default(autoincrement()) @db.Int
   name               String               @db.VarChar(100)
   Content_X_Category Content_X_Category[]
 }
 
 model User_X_Content {
   user      User    @relation(fields: [userId], references: [id])
-  userId    BigInt  @db.BigInt
+  userId    Int     @db.Int
   content   Content @relation(fields: [contentId], references: [id])
-  contentId BigInt  @db.BigInt
+  contentId Int     @db.Int
 
   @@id([userId, contentId])
 }
 
 model Content_X_Category {
   content    Content  @relation(fields: [contentId], references: [id])
-  contentId  BigInt   @db.BigInt
+  contentId  Int      @db.Int
   category   Catogory @relation(fields: [categoryId], references: [id])
-  categoryId BigInt   @db.BigInt
+  categoryId Int      @db.Int
 
   @@id([contentId, categoryId])
 }
 
 model Rol {
-  id   BigInt @id @default(autoincrement())
+  id   Int    @id @default(autoincrement()) @db.Int
   name String @db.VarChar(100)
   User User[]
 }
 
 model AuthorizorToken {
-  id        BigInt   @id @default(autoincrement())
+  id        Int      @id @default(autoincrement()) @db.Int
   token     String   @db.VarChar(1000)
   user      User     @relation(fields: [userId], references: [id])
-  userId    BigInt   @unique @db.BigInt
+  userId    Int      @db.Int
   createdAt DateTime @default(now()) @map("created_at")
 }
-
