@@ -72,7 +72,7 @@ model Rol {
 model AuthorizorToken {
   id        Int      @id @default(autoincrement()) @db.Int
   token     String   @db.VarChar(1000)
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int      @db.Int
   createdAt DateTime @default(now()) @map("created_at")
 }

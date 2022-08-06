@@ -18,7 +18,7 @@ const getUserById = (id) => {
 const create = async (req, res) => {
     logger.info('entro a create')
     try {
-        const password = createHash('sha256', req.body.password).digest('hex')
+        const password = createHash('sha256').update(req.body.password).digest('hex')
         const user = await prisma.user.create({
             data: {
                 ...req.body,
