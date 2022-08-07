@@ -1,4 +1,3 @@
-const { createHash } = require('crypto')
 const { PrismaClient } = require('@prisma/client')
 const { ReasonPhrases, StatusCodes } = require('http-status-codes')
 
@@ -6,25 +5,24 @@ const { logger } = require('./../../../utils')
 
 const prisma = new PrismaClient()
 
-const getUserById = (id) => {
-    return prisma.user.findUnique({
+const getCateogryById = (id) => {
+    return prisma.catogory.findUnique({
         where: {
             id
         }
     })
 }
 
-const create = async (req, res) => {
-    logger.info('creación de usuario')
+const create = async (req,res) => {
+    logger.info('creación de categoria')
     try {
-        const password = createHash('sha256').update(req.body.password).digest('hex')
-        const user = await prisma.user.create({
+        const name = req.body.name;
+        const category = await prisma.catogory.create({
             data: {
-                ...req.body,
-                password
+                name
             }
         })
-        res.status(StatusCodes.CREATED).json(user)
+        res.status(StatusCodes.CREATED).json(category)
     } catch (error) {
         logger.error(error)
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: ReasonPhrases.INTERNAL_SERVER_ERROR})
@@ -36,11 +34,11 @@ const create = async (req, res) => {
 const deleteById = async (req,res) => {
     try {
         const id = Number(req.params.id)
-        const user = await getUserById(id)
-        if(!user){
+        const category = await getCateogryById(id)
+        if(!category){
             return res.sendStatus(StatusCodes.NOT_FOUND)
         }
-        await prisma.user.delete({
+        await prisma.catogory.delete({
             where: {
                 id
             }
@@ -56,8 +54,8 @@ const deleteById = async (req,res) => {
 
 const getAll = async (req, res) => {
     try {
-        const users = await prisma.user.findMany()
-        res.json(users)
+        const categories = await prisma.catogory.findMany()
+        res.json(categories)
     } catch (error) {
         logger.error(error)
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: ReasonPhrases.INTERNAL_SERVER_ERROR})
@@ -69,33 +67,11 @@ const getAll = async (req, res) => {
 const getById = async (req,res) => {
     try {
         const id = Number(req.params.id)
-        const user = await getUserById(id)
-        if(!user) {
+        const category = await getCateogryById(id)
+        if(!category) {
             return res.sendStatus(StatusCodes.NOT_FOUND)
         }
-        res.json(user)
-    } catch (error) {
-        logger.error(error)
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: ReasonPhrases.INTERNAL_SERVER_ERROR})
-    } finally {
-        await prisma.$disconnect()
-    }
-}
-
-const update = async (req, res) => {
-    try {
-        const id = Number(req.params.id)
-        let user = await getUserById(id)
-        if (!user) {
-            return res.sendStatus(StatusCodes.NOT_FOUND)
-        }
-        user = await prisma.user.update({
-            where: {
-                id
-            },
-            data: req.body,
-        })
-        res.json(user)
+        res.json(category)
     } catch (error) {
         logger.error(error)
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: ReasonPhrases.INTERNAL_SERVER_ERROR})
@@ -108,6 +84,5 @@ module.exports = {
     create,
     deleteById,
     getAll,
-    getById,
-    update
+    getById
 }

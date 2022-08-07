@@ -32,7 +32,7 @@ const uniqueDocument = async (document) => {
       }
     })
     if (user) {
-      const message = `User with document ${document} aleady exist.`
+      const message = `Usuario con documento ${document} ya existe.`
       throw new Joi.ValidationError(
         message,
         validationErrorDetails('document', message)

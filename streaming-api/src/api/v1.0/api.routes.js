@@ -2,6 +2,7 @@ const { Router } = require('express')
 
 const {router: userRouter} = require('./user/user.routes')
 const {router: authRouter} = require('./auth/auth.routes')
+const {router: categoryRouter} = require('./category/category.routes')
 const {logger} = require('../../utils')
 
 const router = Router()
@@ -18,6 +19,7 @@ router.get('/status', (req, res) => {
 
 router.use('/', userRouter)
 router.use('/', authRouter)
+router.use('/',categoryRouter)
 
 module.exports = {
     router

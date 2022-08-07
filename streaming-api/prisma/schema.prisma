@@ -41,7 +41,7 @@ model Content {
 
 model Catogory {
   id                 Int                  @id @default(autoincrement()) @db.Int
-  name               String               @db.VarChar(100)
+  name               String               @unique @db.VarChar(100)
   Content_X_Category Content_X_Category[]
 }
 

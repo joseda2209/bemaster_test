@@ -35,7 +35,7 @@ const login = async(req,res) => {
         if (user) {
             const token = generateAccessToken(email, process.env.TOKEN_SECRET, process.env.TOKEN_EXPIRATION)
             await saveToken(token, user.id);
-            res.json({token})
+            res.json({token, Rol: user.rolId})
         } else {
             const error = 'Datos de ingreso invalidos'
             logger.error(error)

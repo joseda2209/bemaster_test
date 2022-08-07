@@ -35,6 +35,7 @@ CREATE TABLE `Catogory` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
 
+    UNIQUE INDEX `Catogory_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -88,4 +89,4 @@ ALTER TABLE `Content_X_Category` ADD CONSTRAINT `Content_X_Category_contentId_fk
 ALTER TABLE `Content_X_Category` ADD CONSTRAINT `Content_X_Category_categoryId_fkey` FOREIGN KEY (`categoryId`) REFERENCES `Catogory`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `AuthorizorToken` ADD CONSTRAINT `AuthorizorToken_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `AuthorizorToken` ADD CONSTRAINT `AuthorizorToken_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
