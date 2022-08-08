@@ -22,7 +22,7 @@ CREATE TABLE `Content` (
     `author` VARCHAR(255) NOT NULL,
     `duration` INTEGER NOT NULL,
     `year` INTEGER NOT NULL,
-    `synopsis` TEXT NOT NULL,
+    `synopsis` TEXT NULL,
     `url` VARCHAR(255) NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
