@@ -104,10 +104,62 @@ const update = async (req, res) => {
     }
 }
 
+const addContentToUser = async (req,res) => {
+    try {
+        const userId = Number(req.params.id)
+        const contents = req.body.contents
+        const user = await getUserById(userId)
+        if (!user) {
+            return res.sendStatus(StatusCodes.NOT_FOUND)
+        }
+        await prisma.user_X_Content.deleteMany({
+            where:{
+                userId
+            }
+        })
+        for(const contentId of contents){
+            await prisma.user_X_Content.create({
+                data:{
+                    contentId,
+                    userId
+                }
+            })
+        }
+        res.sendStatus(StatusCodes.NO_CONTENT)
+    } catch (error) {
+        logger.error(error)
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: ReasonPhrases.INTERNAL_SERVER_ERROR})
+    } finally {
+        await prisma.$disconnect()
+    }
+}
+
+const getContentByUser = async (req,res) => {
+    try {
+        const userId = Number(req.params.id)
+        let contents = await prisma.user_X_Content.findMany({
+            where:{
+                userId
+            },
+            select: {
+                content: true
+            } 
+        })
+        res.json(contents.map(element => element.content))
+    } catch (error) {
+        logger.error(error)
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: ReasonPhrases.INTERNAL_SERVER_ERROR})
+    } finally {
+        await prisma.$disconnect()
+    }
+}
+
 module.exports = {
     create,
     deleteById,
     getAll,
     getById,
-    update
+    update,
+    addContentToUser,
+    getContentByUser
 }

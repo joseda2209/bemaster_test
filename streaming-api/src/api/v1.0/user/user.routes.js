@@ -9,15 +9,19 @@ const router = express.Router({
     strict: true
 })
 
-router.post('/users', [verifyToken, validate(validations.create)], controller.create)
+router.post('/user', [verifyToken, validate(validations.create)], controller.create)
 
 router.get('/users', verifyToken, controller.getAll)
 
-router.get('/users/:id', [verifyToken, validate(validations.getById)], controller.getById)
+router.get('/user/:id', [verifyToken, validate(validations.getById)], controller.getById)
 
-router.delete('/users/:id', [verifyToken, validate(validations.deleteById)], controller.deleteById)
+router.delete('/user/:id', [verifyToken, validate(validations.deleteById)], controller.deleteById)
 
-router.patch('/users/:id', [verifyToken, validate(validations.update)], controller.update)
+router.patch('/user/:id', [verifyToken, validate(validations.update)], controller.update)
+
+router.post('/user/:id/content',[verifyToken,validate(validations.addContentToUser)], controller.addContentToUser)
+
+router.get('/user/:id/content',[verifyToken,validate(validations.addContentToUser)], controller.getContentByUser)
 
 module.exports = {
     router

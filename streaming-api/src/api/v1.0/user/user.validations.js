@@ -2,6 +2,7 @@ const Joi = require('joi')
 const { PrismaClient } = require('@prisma/client')
 
 const { validationErrorDetails } = require('../../../utils/validation-error.details')
+const { add } = require('winston')
 
 const prisma = new PrismaClient()
 
@@ -71,5 +72,11 @@ module.exports = {
             document:   Joi.string().required().external((document) => uniqueDocument(document)),
             rolId:      Joi.number().integer().positive().required()
         }).unknown(false)
+    },
+    addContentToUser: {
+        params: userId,
+        payload: Joi.object({
+            contents:    Joi.array().items(Joi.number().integer().positive())
+        })
     }
 }
