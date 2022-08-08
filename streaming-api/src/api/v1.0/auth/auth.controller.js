@@ -1,25 +1,36 @@
 const {createHash} = require('crypto')
 const { PrismaClient } = require('@prisma/client')
 const { ReasonPhrases, StatusCodes } = require('http-status-codes')
-const jwt = require('jsonwebtoken')
-
+const {generateAccessToken} = require('./auth.utils')
 const { logger } = require('../../../utils')
 const { ServerResponse } = require('http')
 
 const prisma = new PrismaClient()
 
-const generateAccessToken = (email, tokenSecret, tokenExpiration) => {
-    return jwt.sign({email}, tokenSecret,{expiresIn: tokenExpiration})
-}
+// const generateAccessToken = (payload, userId) => {
+//     const token =  jwt.sign({...payload, userId}, process.env.TOKEN_SECRET, {expiresIn: process.env.TOKEN_EXPIRATION})
+//     deleteTokens(userId)
+//     saveToken(token, userId);
+//     return token;
+// }
 
-const saveToken = (token, userId) => {
-    return prisma.authorizorToken.create({
-        data: {
-            token,
-            userId
-        }
-    })
-}
+
+// const saveToken = (token, userId) => {
+//     return prisma.authorizorToken.create({
+//         data: {
+//             token,
+//             userId
+//         }
+//     })
+// }
+
+// const deleteTokens = (userId) => {
+//     return prisma.authorizorToken.deleteMany({
+//         where:{
+//             userId
+//         }
+//     })
+// }
 
 const login = async(req,res) => {
     try {
@@ -32,10 +43,10 @@ const login = async(req,res) => {
                 password
             }
         })
+        logger.warn(JSON.stringify(user))
         if (user) {
-            const token = generateAccessToken(email, process.env.TOKEN_SECRET, process.env.TOKEN_EXPIRATION)
-            await saveToken(token, user.id);
-            res.json({token, Rol: user.rolId})
+            const token = await generateAccessToken({email, rol: user.rolId}, user.id)
+            res.json({token, userId: user.id})
         } else {
             const error = 'Datos de ingreso invalidos'
             logger.error(error)
