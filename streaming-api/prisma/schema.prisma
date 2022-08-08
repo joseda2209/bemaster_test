@@ -31,7 +31,7 @@ model Content {
   author             String               @db.VarChar(255)
   duration           Int                  @db.Int
   year               Int                  @db.Int
-  synopsis           String               @db.Text
+  synopsis           String?               @db.Text
   url                String               @db.VarChar(255)
   createdAt          DateTime             @default(now()) @map("created_at")
   updatedAt          DateTime             @default(now()) @map("updated_at")

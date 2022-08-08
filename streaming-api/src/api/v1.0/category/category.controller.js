@@ -1,17 +1,11 @@
 const { PrismaClient } = require('@prisma/client')
 const { ReasonPhrases, StatusCodes } = require('http-status-codes')
+const utils = require('./category.utils')
 
 const { logger } = require('./../../../utils')
 
 const prisma = new PrismaClient()
 
-const getCateogryById = (id) => {
-    return prisma.catogory.findUnique({
-        where: {
-            id
-        }
-    })
-}
 
 const create = async (req,res) => {
     logger.info('creación de categoria')
@@ -34,7 +28,7 @@ const create = async (req,res) => {
 const deleteById = async (req,res) => {
     try {
         const id = Number(req.params.id)
-        const category = await getCateogryById(id)
+        const category = await utils.getCateogryById(id)
         if(!category){
             return res.sendStatus(StatusCodes.NOT_FOUND)
         }
@@ -67,7 +61,7 @@ const getAll = async (req, res) => {
 const getById = async (req,res) => {
     try {
         const id = Number(req.params.id)
-        const category = await getCateogryById(id)
+        const category = await utils.getCateogryById(id)
         if(!category) {
             return res.sendStatus(StatusCodes.NOT_FOUND)
         }
