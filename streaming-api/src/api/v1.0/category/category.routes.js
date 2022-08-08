@@ -21,6 +21,9 @@ router.get('/category/:id', [verifyToken, validate(validations.getById)], contro
 //DELETE /v1.0/category
 router.delete('/category/:id', [verifyToken, validate(validations.deleteById)], controller.deleteById)
 
+//GET /v1.0/category/:id/content
+router.get('/category/:id/content', [verifyToken, validate(validations.getById)], controller.getContentByCategory)
+
 module.exports = {
     router
 }

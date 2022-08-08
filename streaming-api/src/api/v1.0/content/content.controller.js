@@ -18,7 +18,7 @@ const getContentById = (id) => {
 
 const validateCategory = async categoryId => {
     let response = true;
-    const category = await utilsCategory.getCateogryById(categoryId)
+    const category = await utilsCategory.getCategoryById(categoryId)
     if (!category) {
         logger.error(`categoria de id ${categoryId} no existe`)
         return false

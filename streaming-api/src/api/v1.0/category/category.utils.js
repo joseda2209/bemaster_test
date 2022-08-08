@@ -3,7 +3,7 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
 
-const getCateogryById = (id) => {
+const getCategoryById = (id) => {
     return prisma.catogory.findUnique({
         where: {
             id
@@ -13,5 +13,5 @@ const getCateogryById = (id) => {
 
 
 module.exports = {
-    getCateogryById
+    getCategoryById
 }

@@ -74,9 +74,34 @@ const getById = async (req,res) => {
     }
 }
 
+const getContentByCategory = async (req,res) => {
+    try {
+        const categoryId = Number(req.params.id)
+        const category = await utils.getCategoryById(categoryId)
+        if(!category){
+            return res.sendStatus(StatusCodes.NOT_FOUND)
+        }
+        const contents = await prisma.content_X_Category.findMany({
+            where: {
+                categoryId
+            },
+            select: {
+                content: true
+            }
+        })
+        res.json(contents.map(x => x.content))
+    } catch (error) {
+        logger.error(error)
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({error: ReasonPhrases.INTERNAL_SERVER_ERROR})
+    } finally {
+        await prisma.$disconnect()
+    }
+}
+
 module.exports = {
     create,
     deleteById,
     getAll,
-    getById
+    getById,
+    getContentByCategory
 }
