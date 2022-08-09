@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '~bootstrap/dist/css/bootstrap.css';
+
+.gradient-custom {
+    /* fallback for old browsers */
+    background: rgb(170,112,240);
+    
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(45deg, rgba(170,112,240,1) 0%, rgba(107,32,199,1) 35%, rgba(57,32,88,1) 100%);
+    
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(45deg, rgba(170,112,240,1) 0%, rgba(107,32,199,1) 35%, rgba(57,32,88,1) 100%);
+    }

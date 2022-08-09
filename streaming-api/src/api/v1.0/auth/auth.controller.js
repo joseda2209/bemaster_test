@@ -7,33 +7,10 @@ const { ServerResponse } = require('http')
 
 const prisma = new PrismaClient()
 
-// const generateAccessToken = (payload, userId) => {
-//     const token =  jwt.sign({...payload, userId}, process.env.TOKEN_SECRET, {expiresIn: process.env.TOKEN_EXPIRATION})
-//     deleteTokens(userId)
-//     saveToken(token, userId);
-//     return token;
-// }
-
-
-// const saveToken = (token, userId) => {
-//     return prisma.authorizorToken.create({
-//         data: {
-//             token,
-//             userId
-//         }
-//     })
-// }
-
-// const deleteTokens = (userId) => {
-//     return prisma.authorizorToken.deleteMany({
-//         where:{
-//             userId
-//         }
-//     })
-// }
 
 const login = async(req,res) => {
     try {
+        logger.warn(`request ${req.body}`)
         const password = createHash('sha256').update(req.body.password).digest('hex')
         const email = req.body.email;
         logger.warn(`login with email ${email}`)
@@ -46,7 +23,7 @@ const login = async(req,res) => {
         logger.warn(JSON.stringify(user))
         if (user) {
             const token = await generateAccessToken({email, rol: user.rolId}, user.id)
-            res.json({token, userId: user.id})
+            res.json({token, user})
         } else {
             const error = 'Datos de ingreso invalidos'
             logger.error(error)
